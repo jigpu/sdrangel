@@ -183,6 +183,9 @@ void TCPSrc::stop()
 	closeAllSockets(&m_ssbSockets);
 	closeAllSockets(&m_s16leSockets);
 
+	if (!m_tcpServer)
+		return;
+
 	if(m_tcpServer->isListening())
 		m_tcpServer->close();
 	delete m_tcpServer;

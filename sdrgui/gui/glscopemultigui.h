@@ -174,6 +174,8 @@ private:
     void changeCurrentTrace();
     void changeCurrentTrigger();
 
+    ScopeVisMulti::ProjectionType getUIProjection(QComboBox* comboBox);
+
     void fillTraceData(ScopeVisMulti::TraceData& traceData);
     void fillTriggerData(ScopeVisMulti::TriggerData& triggerData);
     void setTriggerUI(const ScopeVisMulti::TriggerData& triggerData);

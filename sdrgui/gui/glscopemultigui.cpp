@@ -958,7 +958,7 @@ void GLScopeMultiGUI::setTimeOfsDisplay()
 
 void GLScopeMultiGUI::setAmpScaleDisplay()
 {
-    ScopeVisMulti::ProjectionType projectionType = (ScopeVisMulti::ProjectionType) ui->traceMode->currentIndex();
+    ScopeVisMulti::ProjectionType projectionType = getUIProjection(ui->traceMode);
     double ampValue = amps[ui->amp->value()];
 
     if (projectionType == ScopeVisMulti::ProjectionMagDB)
@@ -989,7 +989,7 @@ void GLScopeMultiGUI::setAmpScaleDisplay()
 
 void GLScopeMultiGUI::setAmpOfsDisplay()
 {
-    ScopeVisMulti::ProjectionType projectionType = (ScopeVisMulti::ProjectionType) ui->traceMode->currentIndex();
+    ScopeVisMulti::ProjectionType projectionType = getUIProjection(ui->traceMode);
     double o = (ui->ofsCoarse->value() * 10.0f) + (ui->ofsFine->value() / 20.0f);
 
     if (projectionType == ScopeVisMulti::ProjectionMagDB)
@@ -1054,7 +1054,7 @@ void GLScopeMultiGUI::setTrigIndexDisplay()
 void GLScopeMultiGUI::setTrigLevelDisplay()
 {
     double t = (ui->trigLevelCoarse->value() / 100.0f) + (ui->trigLevelFine->value() / 20000.0f);
-    ScopeVisMulti::ProjectionType projectionType = (ScopeVisMulti::ProjectionType) ui->trigMode->currentIndex();
+    ScopeVisMulti::ProjectionType projectionType = getUIProjection(ui->trigMode);
 
     ui->trigLevelCoarse->setToolTip(QString("Trigger level coarse: %1 %").arg(ui->trigLevelCoarse->value() / 100.0f));
     ui->trigLevelFine->setToolTip(QString("Trigger level fine: %1 ppm").arg(ui->trigLevelFine->value() * 50));
@@ -1188,9 +1188,18 @@ void GLScopeMultiGUI::disableLiveMode(bool disable)
     ui->freerun->setEnabled(!disable);
 }
 
+ScopeVisMulti::ProjectionType GLScopeMultiGUI::getUIProjection(QComboBox* comboBox)
+{
+    int idx = comboBox->currentIndex();
+    if (idx >= 0 && idx < ScopeVisMulti::nbProjectionTypes)
+        return (ScopeVisMulti::ProjectionType)idx;
+    else
+        return ScopeVisMulti::ProjectionReal;
+}
+
 void GLScopeMultiGUI::fillTraceData(ScopeVisMulti::TraceData& traceData)
 {
-    traceData.m_projectionType = (ScopeVisMulti::ProjectionType) ui->traceMode->currentIndex();
+    traceData.m_projectionType = getUIProjection(ui->traceMode);
     traceData.m_hasTextOverlay = (traceData.m_projectionType == ScopeVisMulti::ProjectionMagDB);
     traceData.m_textOverlay.clear();
     traceData.m_inputIndex = 0;
@@ -1215,7 +1224,7 @@ void GLScopeMultiGUI::fillTraceData(ScopeVisMulti::TraceData& traceData)
 
 void GLScopeMultiGUI::fillTriggerData(ScopeVisMulti::TriggerData& triggerData)
 {
-    triggerData.m_projectionType = (ScopeVisMulti::ProjectionType) ui->trigMode->currentIndex();
+    triggerData.m_projectionType = getUIProjection(ui->trigMode);
     triggerData.m_inputIndex = 0;
     triggerData.m_triggerLevel = (ui->trigLevelCoarse->value() / 100.0) + (ui->trigLevelFine->value() / 20000.0);
     triggerData.m_triggerLevelCoarse = ui->trigLevelCoarse->value();

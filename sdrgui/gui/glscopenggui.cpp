@@ -944,7 +944,7 @@ void GLScopeNGGUI::setTimeOfsDisplay()
 
 void GLScopeNGGUI::setAmpScaleDisplay()
 {
-    Projector::ProjectionType projectionType = (Projector::ProjectionType) ui->traceMode->currentIndex();
+    Projector::ProjectionType projectionType = getUIProjection(ui->traceMode);
     double ampValue = amps[ui->amp->value()];
 
     if (projectionType == Projector::ProjectionMagDB)
@@ -975,7 +975,7 @@ void GLScopeNGGUI::setAmpScaleDisplay()
 
 void GLScopeNGGUI::setAmpOfsDisplay()
 {
-    Projector::ProjectionType projectionType = (Projector::ProjectionType) ui->traceMode->currentIndex();
+    Projector::ProjectionType projectionType = getUIProjection(ui->traceMode);
     double o = (ui->ofsCoarse->value() * 10.0f) + (ui->ofsFine->value() / 20.0f);
 
     if (projectionType == Projector::ProjectionMagDB)
@@ -1040,7 +1040,7 @@ void GLScopeNGGUI::setTrigIndexDisplay()
 void GLScopeNGGUI::setTrigLevelDisplay()
 {
     double t = (ui->trigLevelCoarse->value() / 100.0f) + (ui->trigLevelFine->value() / 20000.0f);
-    Projector::ProjectionType projectionType = (Projector::ProjectionType) ui->trigMode->currentIndex();
+    Projector::ProjectionType projectionType = getUIProjection(ui->trigMode);
 
     ui->trigLevelCoarse->setToolTip(QString("Trigger level coarse: %1 %").arg(ui->trigLevelCoarse->value() / 100.0f));
     ui->trigLevelFine->setToolTip(QString("Trigger level fine: %1 ppm").arg(ui->trigLevelFine->value() * 50));
@@ -1174,9 +1174,18 @@ void GLScopeNGGUI::disableLiveMode(bool disable)
     ui->freerun->setEnabled(!disable);
 }
 
+Projector::ProjectionType GLScopeNGGUI::getUIProjection(QComboBox* comboBox)
+{
+    int idx = comboBox->currentIndex();
+    if (idx >= 0 && idx < Projector::nbProjectionTypes)
+        return (Projector::ProjectionType)idx;
+    else
+        return Projector::ProjectionReal;
+}
+
 void GLScopeNGGUI::fillTraceData(ScopeVisNG::TraceData& traceData)
 {
-    traceData.m_projectionType = (Projector::ProjectionType) ui->traceMode->currentIndex();
+    traceData.m_projectionType = getUIProjection(ui->traceMode);
     traceData.m_hasTextOverlay = (traceData.m_projectionType == Projector::ProjectionMagDB);
     traceData.m_textOverlay.clear();
     traceData.m_inputIndex = 0;
@@ -1201,7 +1210,7 @@ void GLScopeNGGUI::fillTraceData(ScopeVisNG::TraceData& traceData)
 
 void GLScopeNGGUI::fillTriggerData(ScopeVisNG::TriggerData& triggerData)
 {
-    triggerData.m_projectionType = (Projector::ProjectionType) ui->trigMode->currentIndex();
+    triggerData.m_projectionType = getUIProjection(ui->trigMode);
     triggerData.m_inputIndex = 0;
     triggerData.m_triggerLevel = (ui->trigLevelCoarse->value() / 100.0) + (ui->trigLevelFine->value() / 20000.0);
     triggerData.m_triggerLevelCoarse = ui->trigLevelCoarse->value();

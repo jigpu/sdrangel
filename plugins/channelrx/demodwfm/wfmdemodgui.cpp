@@ -168,6 +168,8 @@ WFMDemodGUI::WFMDemodGUI(PluginAPI* pluginAPI, DeviceUISet *deviceUISet, Baseban
 
 	m_wfmDemod = (WFMDemod*) rxChannel; //new WFMDemod(m_deviceUISet->m_deviceSourceAPI);
 
+	m_squelchOpen = false;
+
 	connect(&MainWindow::getInstance()->getMasterTimer(), SIGNAL(timeout()), this, SLOT(tick()));
 
     CRightClickEnabler *audioMuteRightClickEnabler = new CRightClickEnabler(ui->audioMute);

@@ -27,7 +27,7 @@
 #include "glscopemulti.h"
 
 GLScopeMulti::GLScopeMulti(QWidget* parent) :
-    QGLWidget(parent),
+    QOpenGLWidget(parent),
     m_tracesData(0),
     m_traces(0),
     m_bufferIndex(0),

@@ -39,7 +39,7 @@ static double log2f(double n)
 #endif*/
 
 GLScope::GLScope(QWidget* parent) :
-	QGLWidget(parent),
+	QOpenGLWidget(parent),
 	m_dataChanged(false),
 	m_configChanged(true),
 	m_mode(ModeIQ),

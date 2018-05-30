@@ -18,7 +18,7 @@
 #ifndef SDRBASE_GUI_GLSCOPEMULTI_H_
 #define SDRBASE_GUI_GLSCOPEMULTI_H_
 
-#include <QGLWidget>
+#include <QOpenGLWidget>
 #include <QPen>
 #include <QTimer>
 #include <QMutex>
@@ -35,7 +35,7 @@
 
 class QPainter;
 
-class SDRGUI_API GLScopeMulti: public QGLWidget {
+class SDRGUI_API GLScopeMulti: public QOpenGLWidget {
     Q_OBJECT
 
 public:

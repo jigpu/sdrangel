@@ -21,7 +21,7 @@
 #ifndef INCLUDE_GLSCOPE_H
 #define INCLUDE_GLSCOPE_H
 
-#include <QGLWidget>
+#include <QOpenGLWidget>
 #include <QPen>
 #include <QTimer>
 #include <QMutex>
@@ -39,7 +39,7 @@
 class ScopeVis;
 class QPainter;
 
-class SDRGUI_API GLScope: public QGLWidget {
+class SDRGUI_API GLScope: public QOpenGLWidget {
 	Q_OBJECT
 
 public:
